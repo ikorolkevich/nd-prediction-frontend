@@ -1,0 +1,7 @@
+export const CURRENT_SITUATION: string = "ТЕКУЩАЯ СИТУАЦИЯ"
+export const TEMPERATURE: string = "Температура воздуха"
+export const HUMIDITY: string = "Влажность"
+export const WIND_SPEED: string = "Скорость ветра"
+export const PRESSURE: string = "Атмосферное давление"
+export const DAYS_WITHOUT_RAIN: string = "Дней без осадков"
+export const DYNAMIC_LINE: string = "ДИНАМИКА ВЕРОЯТНОСТЕЙ ВОЗНИКНОВЕНИЯ ЛП*"
