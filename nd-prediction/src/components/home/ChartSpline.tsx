@@ -6,7 +6,7 @@ import {
   LineSeries
 } from '@devexpress/dx-react-chart-material-ui';
 import { ArgumentScale, Animation, PathFn, PathPoints, PointComponentProps, FactoryFn, ScaleObject } from '@devexpress/dx-react-chart';
-import { DynamicPoint } from '../../types/weather';
+import { CurrentSituation } from '../../types/weather';
 import {
   curveCatmullRom,
   line,
@@ -26,7 +26,7 @@ const Line: React.FC<LineSeries.PathSeriesProps> = (props) => {
 
 export type ChartSplineProps = {
   height: number
-  data: DynamicPoint[]
+  data: CurrentSituation[]
   valueField: string
   argumentField: string
 }

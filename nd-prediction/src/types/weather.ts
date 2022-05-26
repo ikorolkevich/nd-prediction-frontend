@@ -1,10 +1,14 @@
 export type CurrentSituation = {
-  temp: number;
-  humidity: number;
-  wind_speed: number;
-  pressure: number;
-  days_without_rain: number;
-  fire_probability: number;
+  date: string
+  days_from_last_rain: number
+  dew_point: number
+  humidity: number
+  id: number
+  pressure: number
+  rainfall_24h: number
+  temp: number
+  value: number
+  wind_speed: number
 };
 
 export type WeatherData = {
@@ -16,13 +20,13 @@ export type WeatherData = {
   dew_point: number;
 };
 
-export type DynamicPoint = {
-  dt: Date;
-  value: number;
-};
+// export type DynamicPoint = {
+//   date: Date;
+//   value: number;
+// };
 
 export type WeatherState = {
   current_situation: CurrentSituation | null;
   weather_data: Array<WeatherData> | null;
-  dynamic_data: Array<DynamicPoint> | null;
+  dynamic_data: Array<CurrentSituation> | null;
 };

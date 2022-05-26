@@ -30,7 +30,7 @@ import {
   getDynamicDataRequest,
   getWeatherDataRequest,
 } from "../utils/weatherApi";
-import { CurrentSituation, DynamicPoint, WeatherData } from "../types/weather";
+import { CurrentSituation, WeatherData } from "../types/weather";
 import CircularProgress from "@mui/material/CircularProgress";
 import Loader from "../components/basic/Loader";
 import { fetchCurrentSituation, checkUser } from "../utils/helpers";
@@ -52,7 +52,7 @@ const Home: React.FC<HomeProps> = (props) => {
   >(null);
   const [currentSituationIsFetching, setCurrentSituationIsFetching] =
     useState<boolean>(false);
-  const [dynamicData, setDynamicData] = useState<Array<DynamicPoint> | null>(
+  const [dynamicData, setDynamicData] = useState<Array<CurrentSituation> | null>(
     null
   );
   const [dynamicDataError, setDynamicDataError] = useState<string | null>(null);
@@ -90,22 +90,22 @@ const Home: React.FC<HomeProps> = (props) => {
   }, []);
 
 
-  useEffect(() => {
-    const fetchWeatherData = async () => {
-      try {
-        setWeatherDataIsFetching(true);
-        const token = localStorage.getItem("token");
-        const data = await getWeatherDataRequest(token as string);
-        setWeatherData(data.data.weather_data);
-        setWeatherDataIsFetching(false);
-      } catch (error) {
-        console.error(error);
-        setWeatherDataError(error as string);
-        setWeatherDataIsFetching(false);
-      }
-    };
-    fetchWeatherData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchWeatherData = async () => {
+  //     try {
+  //       setWeatherDataIsFetching(true);
+  //       const token = localStorage.getItem("token");
+  //       const data = await getWeatherDataRequest(token as string);
+  //       setWeatherData(data.data.weather_data);
+  //       setWeatherDataIsFetching(false);
+  //     } catch (error) {
+  //       console.error(error);
+  //       setWeatherDataError(error as string);
+  //       setWeatherDataIsFetching(false);
+  //     }
+  //   };
+  //   fetchWeatherData();
+  // }, []);
 
 
   return (
@@ -124,31 +124,31 @@ const Home: React.FC<HomeProps> = (props) => {
             {currentSituation && (
               <Box m={2}>
                 <CircularProgressWithLabel
-                  value={currentSituation.fire_probability}
+                  value={currentSituation.value}
                 />
                 <CurrentStatisticItem
                   icon={<ThermostatIcon />}
-                  value={`${currentSituation.temp} \u2103`}
+                  value={`${currentSituation.temp.toFixed()} \u2103`}
                   title={TEMPERATURE}
                 />
                 <CurrentStatisticItem
                   icon={<OpacityIcon />}
-                  value={`${currentSituation.humidity} %`}
+                  value={`${Math.round((currentSituation.humidity + Number.EPSILON) * 100)} %`}
                   title={HUMIDITY}
                 />
                 <CurrentStatisticItem
                   icon={<AirIcon />}
-                  value={`${currentSituation.wind_speed} м/с`}
+                  value={`${Math.round((currentSituation.wind_speed + Number.EPSILON) * 100) / 100} м/с`}
                   title={WIND_SPEED}
                 />
                 <CurrentStatisticItem
                   icon={<CompressIcon />}
-                  value={`${currentSituation.pressure} мм.рт.ст.`}
+                  value={`${Math.round((currentSituation.pressure + Number.EPSILON) * 100) / 100} мм.рт.ст.`}
                   title={PRESSURE}
                 />
                 <CurrentStatisticItem
                   icon={<GrainIcon />}
-                  value={`${currentSituation.days_without_rain}`}
+                  value={`${currentSituation.days_from_last_rain}`}
                   title={DAYS_WITHOUT_RAIN}
                 />
               </Box>
@@ -178,14 +178,14 @@ const Home: React.FC<HomeProps> = (props) => {
                   height={400}
                   data={dynamicData}
                   valueField={"value"}
-                  argumentField={"dt"}
+                  argumentField={"date"}
                 />
               </Box>
             )}
           </Box>
         </Item>
       </Grid>
-      <Grid item md={12} xs={12}>
+      {/* <Grid item md={12} xs={12}>
         <Item>
         {weatherDataError && (
           <Box m={5} p={5}>
@@ -197,7 +197,7 @@ const Home: React.FC<HomeProps> = (props) => {
           <FixedSizeGrid rows={weatherData} />
         )}
         </Item>
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 };
